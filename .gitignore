@@ -1,0 +1,14 @@
+# Ignorowanie folderu z plikami CSV
+csv_files/
+
+# Ignorowanie plików Docker'a
+*.log
+*.bak
+*.swp
+
+# Ignorowanie plików systemowych
+.DS_Store
+Thumbs.db
+
+# Ignorowanie plików tymczasowych
+*.tmp
