@@ -6,6 +6,7 @@ Ten projekt demonstruje, jak uruchomić dwa różne środowiska MongoDB (7 i 8) 
 
 ## Struktura repozytorium
 
+```
 .
 ├── mongo7/                    # Dockerfile i konfiguracja dla MongoDB 7
 ├── mongo8/                    # Dockerfile i konfiguracja dla MongoDB 8
@@ -22,7 +23,7 @@ Ten projekt demonstruje, jak uruchomić dwa różne środowiska MongoDB (7 i 8) 
 │
 ├── .gitignore                 # Plik ignorujący zbędne pliki w repozytorium (np. csv_files/)
 └── README.md                  # Opis projektu i instrukcja obsługi
-
+```
 ## Wymagania
 
 - Docker
