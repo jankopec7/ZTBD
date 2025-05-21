@@ -31,45 +31,39 @@ Ten projekt demonstruje, jak uruchomić dwa różne środowiska MongoDB (7 i 8) 
 
    Jeśli jeszcze nie masz zainstalowanego Dockera, postępuj zgodnie z oficjalną dokumentacją [Docker Install](https://docs.docker.com/get-docker/).
 
-2. **Sklonuj repozytorium**
+2. **Sklonuj i korzystaj z repo**
 
 ```bash
 git clone <link_do_repozytorium>
 cd <nazwa_repo>
 
-3. **Zbuduj obrazy**
-```bash
+**Zbuduj obrazy**
+
 ./build.sh
 
-4. **Uruchom kontenery**
+**Uruchom kontenery**
 
-```bash
 ./run.sh
 
-5. **Załaduj dane z plików CSV**
+**Załaduj dane z plików CSV**
 
-```bash
 ./load_data.sh
 
-6. **Problemy z importem w MongoDB 8**
+**Problemy z importem w MongoDB 8**
 
 Podczas testów zauważono, że przy imporcie pliku ratings.csv do MongoDB 8 mogą wystąpić problemy.
 
 W takim przypadku możesz skorzystać z ręcznego importu:
 
-```bash
 ./manual_import.sh
 
 
-
-7. **Testowanie zapytań**
+**Testowanie zapytań**
 
 Aby przetestować zapytania wydajnościowe:
 
-```bash
 docker cp mongo_testy.js mongo7-container:/mongo_testy.js  
 docker exec -it mongo7-container mongosh mojaBaza mongo_testy.js
 
-```bash
 docker cp mongo_testy.js mongo8-container:/mongo_testy.js  
 docker exec -it mongo8-container mongosh mojaBaza /mongo_testy.js 
