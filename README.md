@@ -1,8 +1,12 @@
 # Projekt z przedmiotu Zaawansowane Technologie Baz Danych
 
-## MongoDB 7 i MongoDB 8 w Dockerze
+##PostgreSQL, OracleDB, MongoDB 7 i MongoDB 8 w Dockerze
 
-Ten projekt demonstruje, jak uruchomić dwa różne środowiska MongoDB (7 i 8) w kontenerach Docker, używając plików CSV do importu danych. Skrypty pozwalają na zbudowanie obrazów Docker, uruchomienie kontenerów, import danych oraz wykonanie testów wydajnościowych.
+Porównanie działania i właściwości dwóch baz relacyjnych (PostgreSQL, OracleDB) oraz dwóch nierelacyjnych (MongoDB 7, MongoDB 8) pod kątem:
+- Wydajności operacji CRUD (Create, Read, Update, Delete)
+- Agregacji i elastyczności zapytań
+- Modelowania danych
+- Skalowalności
 
 ## Struktura repozytorium
 
