@@ -1,7 +1,7 @@
 #!/bin/bash
 
-echo "Kopiowanie wszystkich plików CSV do kontenera..."
-docker cp csv_files/ mongo8-container:/csv_files/
+echo "Kopiowanie wszystkich plików CSV do kontenera MongoDB 8..."
+docker cp csv_files mongo8-container:/
 
 echo "Importowanie danych do MongoDB 8..."
 
@@ -10,4 +10,5 @@ docker exec mongo8-container mongoimport --db mojaBaza --collection movies --typ
 docker exec mongo8-container mongoimport --db mojaBaza --collection tags --type csv --headerline --file /csv_files/tags.csv
 docker exec mongo8-container mongoimport --db mojaBaza --collection links --type csv --headerline --file /csv_files/links.csv
 
-echo "Import zakończony."
+echo "Import danych do MongoDB 8 zakończony."
+

@@ -1,34 +1,70 @@
--- 1️⃣ Liczba filmów w bazie
-SELECT COUNT(*) FROM movies;
+-- SELECT
 
--- 2️⃣ Liczba ocen użytkownika 123
-SELECT COUNT(*) FROM ratings WHERE userId = 123;
+-- 1. Average rating for each genre
+SELECT m.genres, AVG(r.rating) AS avg_rating
+FROM ratings r
+JOIN movies m ON r.movieId = m.movieId
+GROUP BY m.genres;
 
--- 3️⃣ Średnia ocena filmu 50
-SELECT AVG(rating) FROM ratings WHERE movieId = 50;
+-- 2. Number of ratings for each movie with the title
+SELECT m.title, COUNT(*) AS rating_count
+FROM ratings r
+JOIN movies m ON r.movieId = m.movieId
+GROUP BY m.title;
 
--- 4️⃣ Top 5 filmów z największą liczbą ocen
-SELECT movieId, COUNT(*) AS numRatings 
-FROM ratings 
-GROUP BY movieId 
-ORDER BY numRatings DESC 
-LIMIT 5;
+-- 3. Average rating for each imdbId
+SELECT l.imdbId, AVG(r.rating) AS avg_rating
+FROM ratings r
+JOIN links l ON r.movieId = l.movieId
+GROUP BY l.imdbId;
 
--- 5️⃣ Liczba unikalnych użytkowników
-SELECT COUNT(DISTINCT userId) FROM ratings;
+-- 4. Movies that user 6550 rated >= 4.5 and tagged
+SELECT m.title, r.rating, t.tag
+FROM ratings r
+JOIN tags t ON r.userId = t.userId AND r.movieId = t.movieId
+JOIN movies m ON r.movieId = m.movieId
+WHERE r.userId = 6550 AND r.rating >= 4.5;
 
--- 6️⃣ Filmy z tytułem zawierającym 'Star'
-SELECT * FROM movies WHERE title LIKE '%Star%';
 
--- 7️⃣ Aktualizacja ocen użytkownika 456 dla filmów > 1000
-UPDATE ratings SET rating = 5 
-WHERE userId = 456 AND movieId > 1000;
+-- UPDATE
 
--- 8️⃣ Usunięcie wszystkich ocen filmu 789
-DELETE FROM ratings WHERE movieId = 789;
+-- 5. Update rating to 5.0 for all movies in the genre "Drama"
+UPDATE ratings
+SET rating = 5.0
+FROM movies m
+WHERE ratings.movieId = m.movieId AND m.genres LIKE '%Drama%';
 
--- 9️⃣ Liczba filmów z roku 1999
-SELECT COUNT(*) FROM movies WHERE title LIKE '%(1999)%';
+-- 6. Update ratings by 0.5 less for movies with imdbId < 1000000
+UPDATE ratings
+SET rating = GREATEST(rating - 0.5, 0.5)
+FROM links l
+WHERE ratings.movieId = l.movieId AND l.imdbId < '1000000';
 
--- 🔟 Liczba tagów filmu 50
-SELECT COUNT(*) FROM tags WHERE movieId = 50;
+-- 7. Reset rating if user left tag "so bad it's good"
+UPDATE ratings
+SET rating = 0.0
+FROM tags t
+WHERE ratings.movieId = t.movieId AND ratings.userId = t.userId
+  AND LOWER(t.tag) = 'so bad it''s good';
+
+
+-- DELETE
+
+-- 8. Delete low-rated entries that have no match in links by tmdbId
+DELETE FROM ratings
+WHERE rating < 2.0
+  AND NOT EXISTS (
+    SELECT 1 FROM links l
+    WHERE l.movieId = ratings.movieId AND l.tmdbId IS NOT NULL
+  );
+
+-- 9. Delete all ratings for movies with genre "Documentary"
+DELETE FROM ratings
+USING movies m
+WHERE ratings.movieId = m.movieId AND m.genres LIKE '%Documentary%';
+
+-- 10. Delete all ratings that have the tag "boring"
+DELETE FROM ratings
+USING tags t
+WHERE ratings.userId = t.userId AND ratings.movieId = t.movieId
+  AND LOWER(t.tag) = 'boring';
